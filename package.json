@@ -11,5 +11,8 @@
   "dependencies": {
     "johnny-five": "^0.10.6",
     "ws": "^2.2.0"
+  },
+  "devDependencies": {
+    "leapjs": "^0.6.4"
   }
 }
