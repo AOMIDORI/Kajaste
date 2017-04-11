@@ -12,7 +12,9 @@ var i = 0;
 var ledoff = true;
 var prev_color = "#000000";
 var color = '';
-var brightness = 99;
+var bright_index = 99;
+
+
 var hand_x, hand_z;
 
 
@@ -40,6 +42,10 @@ function getrgb(x, y, z) {
 
 }
 
+function changeBrightness(y) {
+    return (y/600)*100;
+}
+
 board.on('ready', function() {
     var led = new five.Led.RGB([ 9, 10, 11 ]);
     var relay = new five.Relay(2);
@@ -60,6 +66,10 @@ board.on('ready', function() {
 
     controller.on('hand', function(hand) {
         // console.log(hand.grabStrength);
+        hand_x = hand.palmPosition[0];
+        hand_y = hand.palmPosition[1];
+        hand_z = hand.palmPosition[2];
+
         if (hand.grabStrength > 0.7) {
             led.off();
             // ledoff = true;
@@ -67,17 +77,20 @@ board.on('ready', function() {
             led.on();
             // ledoff = false;
             // console.log(hand.palmPosition);
-            // console.log(hand.palmPosition);
-            hand_x = hand.palmPosition[0];
-            hand_y = hand.palmPosition[1];
-            hand_z = hand.palmPosition[2];
-            color = getrgb(hand_x, hand_y, hand_z);
-            prev_color = color;
-            console.log(color);
+            // console.log(hand.indexFinger.extended);
+            if (hand.indexFinger.extended && !hand.thumb.extended && !hand.middleFinger.extended && !hand.ringFinger.extended && !hand.pinky.extended) {
+                bright_index = changeBrightness(hand_y);
+                led.intensity(bright_index);
+            } else {
+                color = getrgb(hand_x, hand_y, hand_z);
+                prev_color = color;
+                led.color(color);
+            }
 
-            led.color(color);
         }
 
     });
+
+
     controller.connect();
 });
