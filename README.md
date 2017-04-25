@@ -11,10 +11,10 @@ A gesture controlled lighting system
 2. Connect the Arduino and the LeapMotion to the computer
 3. Set up the Arduino: 
 
-  -- Open the Arduino IDE
+  Open the Arduino IDE
   
-  -- open the File>Examples>Firmata>StandardFirmata 
+  open the File>Examples>Firmata>StandardFirmata 
   
-  -- upload
+  upload
   
 4. Run in the terminal: node app.js
